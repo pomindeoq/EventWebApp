@@ -4,90 +4,154 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using Newtonsoft.Json;
+using Event.Models;
+using Event.Models.Respone.Item;
 
 namespace Event.Controllers
 {
     public class ItemController : Controller
     {
-        // GET: Item
-        public ActionResult Index()
+        HttpClient client;
+        string url = "http://localhost:54443";
+     
+
+        public ItemController()
         {
-            return View();
+            client = new HttpClient();
+            client.BaseAddress = new Uri(url);
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+        }
+
+        // GET: Items
+        public async Task<ActionResult> Items()
+        {
+
+            HttpResponseMessage Response = await client.GetAsync("api/Item/getItems");
+
+            if (Response.IsSuccessStatusCode)
+            {
+                var ItemResponse = Response.Content.ReadAsStringAsync().Result;
+
+                var itemsResponse = JsonConvert.DeserializeObject<ItemsResponse>(ItemResponse);
+               
+                return View(itemsResponse.Items);
+
+            }
+
+            return View("Error");
         }
 
         // GET: Item/Details/5
-        public ActionResult Details(int id)
+        public async Task<ActionResult> Details(int id)
         {
-            return View();
+            HttpResponseMessage responseMessage = await client.GetAsync("api/Item/getAllItems" + "/" + id);
+
+            if (responseMessage.IsSuccessStatusCode)
+            {
+                var dataResponse = responseMessage.Content.ReadAsStringAsync().Result;
+
+                var Item = JsonConvert.DeserializeObject<Item>(dataResponse);
+
+                return View(Item);
+            }
+
+            return View("Error");
         }
 
         // GET: Item/Create
         public ActionResult Create()
         {
-            return View();
+            return View(new Item());
         }
 
         // POST: Item/Create
+        /*
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public async Task<ActionResult> Create(Item item)
         {
-            try
-            {
-                // TODO: Add insert logic here
+            HttpResponseMessage responseMesssage = await client.PostAsync("api/Item/createItem",item);
 
-                return RedirectToAction(nameof(Index));
-            }
-            catch
+           if (responseMesssage.IsSuccessStatusCode)
             {
-                return View();
+                return RedirectToAction("ItemsList");
             }
+
+            return RedirectToAction("Error");
+
         }
-
+        */
         // GET: Item/Edit/5
-        public ActionResult Edit(int id)
+        public async Task<ActionResult> Edit(int id)
         {
-            return View();
+            HttpResponseMessage responseMessage = await client.GetAsync("api/Item/getItem/id={id}" + "/" + id);
+
+            if (responseMessage.IsSuccessStatusCode)
+            {
+                var responseData = responseMessage.Content.ReadAsStringAsync().Result;
+
+                var Item = JsonConvert.DeserializeObject<Item>(responseData);
+
+                return View(Item);
+            }
+
+            return View("Error");
+
         }
 
         // POST: Item/Edit/5
+        /*
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public async Task<ActionResult> Edit(int id, Item item)
         {
-            try
-            {
-                // TODO: Add update logic here
+            HttpResponseMessage responseMessage = await client.PostAsync("api/Item/createItem"+ "/" + id, item);
 
-                return RedirectToAction(nameof(Index));
-            }
-            catch
+            if (responseMessage.IsSuccessStatusCode)
             {
-                return View();
+                RedirectToAction("ItemsList");
             }
+
+            return  RedirectToAction("Error");
+            
         }
-
+        */
         // GET: Item/Delete/5
-        public ActionResult Delete(int id)
+        public async Task<ActionResult> Delete(int id)
         {
-            return View();
+            HttpResponseMessage responseMessage = await client.GetAsync("api/Item/DeleteItem" + "/" + id);
+
+            if (responseMessage.IsSuccessStatusCode)
+            {
+                var responseData = responseMessage.Content.ReadAsStringAsync().Result;
+
+                var Item = JsonConvert.DeserializeObject<Item>(responseData);
+
+                return View(Item);
+                    
+            }
+
+            return View("Error");
         }
 
         // POST: Item/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public async Task<ActionResult> Delete(int id, IFormCollection collection)
         {
-            try
-            {
-                // TODO: Add delete logic here
+            HttpResponseMessage responseMessage = await client.DeleteAsync("api / Item / DeleteItem" + "/" + id);
 
-                return RedirectToAction(nameof(Index));
-            }
-            catch
+            if (responseMessage.IsSuccessStatusCode)
             {
-                return View();
+                return RedirectToAction("ItemList");
             }
+
+            return View("Error");
+            
         }
     }
 }

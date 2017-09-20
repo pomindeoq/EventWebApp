@@ -15,9 +15,10 @@
         <section>
             <h4>Register</h4>
             <hr />
-            <form asp-action="Register with username">   
-                <button type="submit" class="btn btn-default">Register</button>
-            </form>
+             <div> 
+                 <a href="/Account/Register" class="btn btn-primary" role="button">Register</a>
+            </div>
+            <hr />
         </section>
     </div>
     <div class="col-md-6 col-md-offset-2">
@@ -42,13 +43,14 @@
                             <p>
                                 @foreach (var provider in loginProviders)
                                 {
-                                    <button type="submit" class="btn btn-default" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.Name</button>
+                                    <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.Name</button>
                                 }
                             </p>
                         </div>
                     </form>
                 }
             }
+            <hr />
         </section>
     </div>
 </div>
