@@ -5,8 +5,9 @@ using System.Threading.Tasks;
 
 namespace Event.Models.Respone.Item
 {
-    public class ItemResponse
+    public class CreateItemModel
     {
-
+        public int CategoryId { get; set; }
+        public int PointValue { get; set; }
     }
 }

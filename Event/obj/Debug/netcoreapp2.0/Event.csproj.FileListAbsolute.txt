@@ -2,7 +2,6 @@ C:\Users\Mindaugas\Source\Repos\Event\Event\bin\Debug\netcoreapp2.0\Event.deps.j
 C:\Users\Mindaugas\Source\Repos\Event\Event\bin\Debug\netcoreapp2.0\Event.runtimeconfig.json
 C:\Users\Mindaugas\Source\Repos\Event\Event\bin\Debug\netcoreapp2.0\Event.runtimeconfig.dev.json
 C:\Users\Mindaugas\Source\Repos\Event\Event\bin\Debug\netcoreapp2.0\Event.dll
-C:\Users\Mindaugas\Source\Repos\Event\Event\obj\Debug\netcoreapp2.0\Event.csprojResolveAssemblyReference.cache
 C:\Users\Mindaugas\Source\Repos\Event\Event\obj\Debug\netcoreapp2.0\Event.csproj.CoreCompileInputs.cache
 C:\Users\Mindaugas\Source\Repos\Event\Event\obj\Debug\netcoreapp2.0\Event.AssemblyInfoInputs.cache
 C:\Users\Mindaugas\Source\Repos\Event\Event\obj\Debug\netcoreapp2.0\Event.AssemblyInfo.cs
@@ -10,3 +9,4 @@ C:\Users\Mindaugas\Source\Repos\Event\Event\bin\Debug\netcoreapp2.0\Event.pdb
 C:\Users\Mindaugas\Source\Repos\Event\Event\obj\Debug\netcoreapp2.0\Event.dll
 C:\Users\Mindaugas\Source\Repos\Event\Event\obj\Debug\netcoreapp2.0\Event.pdb
 C:\Users\Mindaugas\Source\Repos\Event\Event\obj\Debug\netcoreapp2.0\UserSecretsAssemblyInfo.cs
+C:\Users\Mindaugas\Source\Repos\Event\Event\obj\Debug\netcoreapp2.0\Event.csprojResolveAssemblyReference.cache

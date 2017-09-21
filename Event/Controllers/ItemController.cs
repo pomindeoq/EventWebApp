@@ -9,6 +9,7 @@ using System.Net.Http.Headers;
 using Newtonsoft.Json;
 using Event.Models;
 using Event.Models.Respone.Item;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Event.Controllers
 {
@@ -62,29 +63,24 @@ namespace Event.Controllers
             return View("Error");
         }
 
-        // GET: Item/Create
+        // GET: Item/Create       
         public ActionResult Create()
         {
-            return View(new Item());
+            return View(new CreateItemModel());
         }
 
         // POST: Item/Create
-        /*
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(Item item)
+        [ValidateAntiForgeryToken]             
+        public async Task<ActionResult> Create(CreateItemModel itemModel)
         {
-            HttpResponseMessage responseMesssage = await client.PostAsync("api/Item/createItem",item);
+            HttpResponseMessage responseMesssage = await client.PostAsJsonAsync("api/Item/createItem", itemModel);
 
-           if (responseMesssage.IsSuccessStatusCode)
-            {
-                return RedirectToAction("ItemsList");
-            }
+            responseMesssage.EnsureSuccessStatusCode();
 
-            return RedirectToAction("Error");
-
+            return RedirectToAction("Items");
         }
-        */
+      
         // GET: Item/Edit/5
         public async Task<ActionResult> Edit(int id)
         {
@@ -104,12 +100,12 @@ namespace Event.Controllers
         }
 
         // POST: Item/Edit/5
-        /*
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit(int id, Item item)
         {
-            HttpResponseMessage responseMessage = await client.PostAsync("api/Item/createItem"+ "/" + id, item);
+            HttpResponseMessage responseMessage = await client.PostAsJsonAsync("api/Item/createItem"+ "/" + id, item);
 
             if (responseMessage.IsSuccessStatusCode)
             {
@@ -119,7 +115,7 @@ namespace Event.Controllers
             return  RedirectToAction("Error");
             
         }
-        */
+        
         // GET: Item/Delete/5
         public async Task<ActionResult> Delete(int id)
         {

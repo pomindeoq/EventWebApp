@@ -1,7 +1,7 @@
 {
   "runtimeTarget": {
     "name": ".NETCoreApp,Version=v2.0",
-    "signature": "4d8fd447fbb09bf4100772b34f9e2f9b8100b934"
+    "signature": "62391984edb367a0fa9fee3800f50f55d2f5aac0"
   },
   "compilationOptions": {
     "defines": [
@@ -29,7 +29,8 @@
           "Microsoft.EntityFrameworkCore.Tools": "2.0.0",
           "Microsoft.NETCore.App": "2.0.0",
           "Microsoft.VisualStudio.Web.CodeGeneration.Design": "2.0.0",
-          "Pomelo.EntityFrameworkCore.MySql": "2.0.0-rtm-10062"
+          "Pomelo.EntityFrameworkCore.MySql": "2.0.0",
+          "System.Net.Http.Formatting.Extension": "5.2.3"
         },
         "runtime": {
           "Event.dll": {}
@@ -2448,7 +2449,7 @@
           "ref/netstandard2.0/Microsoft.Win32.Registry.dll": {}
         }
       },
-      "MySqlConnector/0.26.1": {
+      "MySqlConnector/0.26.4": {
         "dependencies": {
           "System.Buffers": "4.4.0",
           "System.Data.Common": "4.3.0",
@@ -2524,12 +2525,12 @@
           "lib/netstandard1.3/NuGet.Frameworks.dll": {}
         }
       },
-      "Pomelo.EntityFrameworkCore.MySql/2.0.0-rtm-10062": {
+      "Pomelo.EntityFrameworkCore.MySql/2.0.0": {
         "dependencies": {
           "Microsoft.EntityFrameworkCore.Design": "2.0.0",
           "Microsoft.EntityFrameworkCore.Relational": "2.0.0",
           "Microsoft.Extensions.Logging.Console": "2.0.0",
-          "MySqlConnector": "0.26.1",
+          "MySqlConnector": "0.26.4",
           "Pomelo.JsonObject": "1.1.1"
         },
         "runtime": {
@@ -3394,6 +3395,18 @@
             "rid": "win",
             "assetType": "runtime"
           }
+        }
+      },
+      "System.Net.Http.Formatting.Extension/5.2.3": {
+        "runtime": {
+          "lib/System.Net.Http.Extensions.dll": {},
+          "lib/System.Net.Http.Formatting.dll": {},
+          "lib/System.Net.Http.Primitives.dll": {}
+        },
+        "compile": {
+          "lib/System.Net.Http.Extensions.dll": {},
+          "lib/System.Net.Http.Formatting.dll": {},
+          "lib/System.Net.Http.Primitives.dll": {}
         }
       },
       "System.Net.NameResolution/4.3.0": {
@@ -5541,12 +5554,12 @@
       "path": "microsoft.win32.registry/4.4.0",
       "hashPath": "microsoft.win32.registry.4.4.0.nupkg.sha512"
     },
-    "MySqlConnector/0.26.1": {
+    "MySqlConnector/0.26.4": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-DEWS+PiC+JeYw5zLEoZeOlWyKOQBoxuWdwkrRnv6V5rY2GNpLWnhlBl/P/EPXkHA7PZSFcgVBvR4wimiAioXrg==",
-      "path": "mysqlconnector/0.26.1",
-      "hashPath": "mysqlconnector.0.26.1.nupkg.sha512"
+      "sha512": "sha512-jJ8whR/B6X1qG5jHXVDR+bTwnNxOAGBmy6qiEv8YA7MeXnTkNBegWDfvCH1/RJJYzGVbNS40VaHQv6Tqbo48gA==",
+      "path": "mysqlconnector/0.26.4",
+      "hashPath": "mysqlconnector.0.26.4.nupkg.sha512"
     },
     "Newtonsoft.Json/10.0.1": {
       "type": "package",
@@ -5569,12 +5582,12 @@
       "path": "nuget.frameworks/4.0.0",
       "hashPath": "nuget.frameworks.4.0.0.nupkg.sha512"
     },
-    "Pomelo.EntityFrameworkCore.MySql/2.0.0-rtm-10062": {
+    "Pomelo.EntityFrameworkCore.MySql/2.0.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-yT2Xx0eRrlQrr0SqveTwGtynyNAeuJ+vEX13jpDH+XgwlBYAzcqXC6pPWEKCoTBag/5+97VJv/0B+tvwJwmX8A==",
-      "path": "pomelo.entityframeworkcore.mysql/2.0.0-rtm-10062",
-      "hashPath": "pomelo.entityframeworkcore.mysql.2.0.0-rtm-10062.nupkg.sha512"
+      "sha512": "sha512-+13BZXxGQ4E/fRXj8JNo2ifmJkEdM5pSve5HNLdrGe/IQ/6MpGsbcqpAV8eDRE11E3IvDbqnHXfOQcI6rr7LdQ==",
+      "path": "pomelo.entityframeworkcore.mysql/2.0.0",
+      "hashPath": "pomelo.entityframeworkcore.mysql.2.0.0.nupkg.sha512"
     },
     "Pomelo.JsonObject/1.1.1": {
       "type": "package",
@@ -6086,6 +6099,13 @@
       "sha512": "sha512-sYg+FtILtRQuYWSIAuNOELwVuVsxVyJGWQyOnlAzhV4xvhyFnON1bAzYYC+jjRW8JREM45R0R5Dgi8MTC5sEwA==",
       "path": "system.net.http/4.3.0",
       "hashPath": "system.net.http.4.3.0.nupkg.sha512"
+    },
+    "System.Net.Http.Formatting.Extension/5.2.3": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-BlYwj3Mbgc2i+NqtBZ+bea3LiN9WuGpE8PCylBvhxV0wBs0XTkXJmDuzkNnUyPhDBqKMBwDK0ZCnwJ8LpQ0aEg==",
+      "path": "system.net.http.formatting.extension/5.2.3",
+      "hashPath": "system.net.http.formatting.extension.5.2.3.nupkg.sha512"
     },
     "System.Net.NameResolution/4.3.0": {
       "type": "package",
