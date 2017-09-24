@@ -13,6 +13,8 @@ using Microsoft.Extensions.Options;
 using Event.Models;
 using Event.Models.AccountViewModels;
 using Event.Services;
+using System.Net.Http;
+using System.Net.Http.Headers;
 
 namespace Event.Controllers
 {
@@ -20,6 +22,9 @@ namespace Event.Controllers
     [Route("[controller]/[action]")]
     public class AccountController : Controller
     {
+        HttpClient client;
+        string url = "http://localhost:54443";
+
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IEmailSender _emailSender;
@@ -35,6 +40,11 @@ namespace Event.Controllers
             _signInManager = signInManager;
             _emailSender = emailSender;
             _logger = logger;
+
+            client = new HttpClient();
+            client.BaseAddress = new Uri(url);
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
         [TempData]
@@ -64,6 +74,7 @@ namespace Event.Controllers
                 var result = await _signInManager.PasswordSignInAsync(model.Username, model.Password, model.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
+                   
                     _logger.LogInformation("User logged in.");
                     return RedirectToLocal(returnUrl);
                 }
@@ -223,7 +234,7 @@ namespace Event.Controllers
                 var user = new ApplicationUser { UserName = model.Username, Email = model.Email };
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
-                {
+                {                    
                     _logger.LogInformation("User created a new account with password.");
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
@@ -231,6 +242,11 @@ namespace Event.Controllers
                     await _emailSender.SendEmailConfirmationAsync(model.Email, callbackUrl);
 
                     await _signInManager.SignInAsync(user, isPersistent: false);
+
+                    HttpResponseMessage responseMessage = await client.PostAsJsonAsync("api/Account/login", model);
+
+                    responseMessage.EnsureSuccessStatusCode();
+
                     _logger.LogInformation("User created a new account with password.");
                     return RedirectToLocal(returnUrl);
                 }
