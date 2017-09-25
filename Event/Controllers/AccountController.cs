@@ -15,6 +15,7 @@ using Event.Models.AccountViewModels;
 using Event.Services;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using Event.Models.Respone.Item;
 
 namespace Event.Controllers
 {
@@ -73,8 +74,7 @@ namespace Event.Controllers
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
                 var result = await _signInManager.PasswordSignInAsync(model.Username, model.Password, model.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
-                {
-                   
+                {                                     
                     _logger.LogInformation("User logged in.");
                     return RedirectToLocal(returnUrl);
                 }
@@ -234,7 +234,12 @@ namespace Event.Controllers
                 var user = new ApplicationUser { UserName = model.Username, Email = model.Email };
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
-                {                    
+                {
+                    AddPointsModel addpoints = new AddPointsModel { UserName = user.UserName, Value = 0 };
+
+                    HttpResponseMessage responseMessage = await client.PostAsJsonAsync("api/Point/AddPoints", addpoints);
+                    responseMessage.EnsureSuccessStatusCode();
+
                     _logger.LogInformation("User created a new account with password.");
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
@@ -242,11 +247,7 @@ namespace Event.Controllers
                     await _emailSender.SendEmailConfirmationAsync(model.Email, callbackUrl);
 
                     await _signInManager.SignInAsync(user, isPersistent: false);
-
-                    HttpResponseMessage responseMessage = await client.PostAsJsonAsync("api/Account/login", model);
-
-                    responseMessage.EnsureSuccessStatusCode();
-
+                  
                     _logger.LogInformation("User created a new account with password.");
                     return RedirectToLocal(returnUrl);
                 }
@@ -296,6 +297,7 @@ namespace Event.Controllers
             var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false, bypassTwoFactor: true);
             if (result.Succeeded)
             {
+                         
                 _logger.LogInformation("User logged in with {Name} provider.", info.LoginProvider);
                 return RedirectToLocal(returnUrl);
             }
@@ -333,6 +335,11 @@ namespace Event.Controllers
                     result = await _userManager.AddLoginAsync(user, info);
                     if (result.Succeeded)
                     {
+                        AddPointsModel addpoints = new AddPointsModel { UserName = user.UserName, Value = 0 };
+
+                        HttpResponseMessage responseMessage = await client.PostAsJsonAsync("api/Point/AddPoints", addpoints);
+                        responseMessage.EnsureSuccessStatusCode();
+
                         await _signInManager.SignInAsync(user, isPersistent: false);
                         _logger.LogInformation("User created an account using {Name} provider.", info.LoginProvider);
                         return RedirectToLocal(returnUrl);

@@ -1,4 +1,4 @@
-﻿@model Event.Models.Respone.Item.CreateItemModel
+﻿@model Event.Models.Respone.Item.CreateItemViewModel
 
 @{
     ViewData["Title"] = "Create";
@@ -13,10 +13,21 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="CategoryId" class="control-label"></label>
-                <input asp-for="CategoryId" class="form-control" />
-                <span asp-validation-for="CategoryId" class="text-danger"></span>
+                @Html.LabelFor(m => m.ItemCategories)
+                @Html.DropDownListFor(m => m.SelectedValue, // 1. Store selected value in Model.State;
+                                                            // when page is rendered after postback,
+                                                            // take selected value from Model.State.
+
+                                              // 2. Take list of values from Model.States
+                                              Model.ItemCategories,
+
+                                              // 3. Text for the first 'default' option
+                                              "- Please select a state -",
+
+                                              //4. A class name to assign to <select> tag
+                                              new { @class = "form-control" })
             </div>
+
             <div class="form-group">
                 <label asp-for="PointValue" class="control-label"></label>
                 <input asp-for="PointValue" class="form-control" />

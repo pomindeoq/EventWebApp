@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace Event.Models
 {
-    public class ItemCategory
+    public class AddPointsModel
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
+        public string UserName { get; set; }
+        public int Value { get; set; }
     }
 }

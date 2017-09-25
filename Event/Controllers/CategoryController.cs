@@ -8,6 +8,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using Newtonsoft.Json;
 using Event.Models;
+using Event.Models.Categories;
 
 namespace Event.Controllers
 {
@@ -25,18 +26,17 @@ namespace Event.Controllers
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
         // GET: Category
-        public async Task<ActionResult> Index()
+        public async Task<ActionResult> Categories()
         {
-            HttpResponseMessage Response = await client.GetAsync("api/Item/getAllItemCategories");
+            HttpResponseMessage Response = await client.GetAsync("api/Item/getItemCategories");
 
             if (Response.IsSuccessStatusCode)
             {
-                var dataResponse = Response.Content.ReadAsStringAsync().Result;
+                var ItemCategoryResponse = Response.Content.ReadAsStringAsync().Result;
 
-                var Categories = JsonConvert.DeserializeObject<List<ItemCategory>>(dataResponse);
+                var itemCategoriesResponse = JsonConvert.DeserializeObject<ItemCategoriesResponse>(ItemCategoryResponse);
 
-                return View(Categories);
-
+                return View(itemCategoriesResponse.ItemCategories);
             }
 
             return View("Error");
@@ -51,26 +51,23 @@ namespace Event.Controllers
         // GET: Category/Create
         public ActionResult Create()
         {
-            return View();
+            return View(new CreateItemCategoryModel());
         }
-        /*
+        
         // POST: Category/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(ItemCategory itemCategory)
+        public async Task<ActionResult> Create(CreateItemCategoryModel itemCategoryModel)
         {
             
-            HttpResponseMessage responseMesssage = await client.PostAsync("api/Item/createItem",);
+            HttpResponseMessage responseMesssage = await client.PostAsJsonAsync("api/Item/createItemCategory", itemCategoryModel);
 
-            if (responseMesssage.IsSuccessStatusCode)
-            {
-                return RedirectToAction(nameof(Index));
-            }
-                                       
-            return View("Error"); 
+            responseMesssage.EnsureSuccessStatusCode();
+                                                 
+            return RedirectToAction("Categories"); 
             
         }
-        */
+        
         // GET: Category/Edit/5
         public ActionResult Edit(int id)
         {
@@ -86,7 +83,7 @@ namespace Event.Controllers
             {
                 // TODO: Add update logic here
 
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Categories));
             }
             catch
             {
@@ -109,7 +106,7 @@ namespace Event.Controllers
             {
                 // TODO: Add delete logic here
 
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Categories));
             }
             catch
             {
