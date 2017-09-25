@@ -10,6 +10,7 @@ using Newtonsoft.Json;
 using Event.Models;
 using Event.Models.Respone.Item;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace Event.Controllers
 {
@@ -17,14 +18,18 @@ namespace Event.Controllers
     {
         HttpClient client;
         string url = "http://localhost:54443";
-     
 
-        public ItemController()
+        private readonly UserManager<ApplicationUser> _userManager;
+
+        public ItemController(UserManager<ApplicationUser> userManager)
         {
+            _userManager = userManager;
+
             client = new HttpClient();
             client.BaseAddress = new Uri(url);
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            
         }
 
         // GET: Items
@@ -74,8 +79,12 @@ namespace Event.Controllers
         [ValidateAntiForgeryToken]             
         public async Task<ActionResult> Create(CreateItemModel itemModel)
         {
-            HttpResponseMessage responseMesssage = await client.PostAsJsonAsync("api/Item/createItem", itemModel);
+            var user = await _userManager.GetUserAsync(HttpContext.User);
 
+            itemModel.UserId = user.Id;
+
+            HttpResponseMessage responseMesssage = await client.PostAsJsonAsync("api/Item/createItem", itemModel);
+           
             responseMesssage.EnsureSuccessStatusCode();
 
             return RedirectToAction("Items");
