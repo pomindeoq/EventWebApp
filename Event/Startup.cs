@@ -27,15 +27,13 @@ namespace Event
         public void ConfigureServices(IServiceCollection services)
         {
             // Database
-            var sqlConnectionString = Configuration.GetConnectionString("SwitchLook");
+            var sqlConnectionString = "server=164.132.233.40;userid=switchlook;password=teoy3RroLKqqWpm0;database=switchlook;";
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseMySql(
                     sqlConnectionString
                 )
             );
-
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+           
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -46,12 +44,12 @@ namespace Event
 
             services.AddAuthentication().AddFacebook(facebookOptions =>
             {
-                facebookOptions.AppId = Configuration["Authentication:Facebook:AppId"];
-                facebookOptions.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
+                facebookOptions.AppId = "496342054036347";
+                facebookOptions.AppSecret = "0d4236e657b7710132e40d087f5ff10b";
             }).AddGoogle(googleOptions =>           
             {
-                googleOptions.ClientId = Configuration["Authentication:Google:ClientId"];
-                googleOptions.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
+                googleOptions.ClientId = "697330306989-6ur1rkdq2brslp5nvglurri3qj1025ut.apps.googleusercontent.com";
+                googleOptions.ClientSecret = "3CE8GeiJDxXt-oJZDwfy-O6W";
             });
             
 

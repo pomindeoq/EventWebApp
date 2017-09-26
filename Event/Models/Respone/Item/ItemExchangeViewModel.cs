@@ -9,6 +9,6 @@ namespace Event.Models.Respone.Item
     {
         public int ItemId { get; set; }
         public string NewOwnerAccountUserName { get; set; }
-        public int PointValue { get; set; }
+        public double PointValue { get; set; }
     }
 }

@@ -71,41 +71,56 @@ namespace Event.Controllers
         }
 
         // GET: Item/Create       
-        public async Task<ActionResult> Create()
+        public async Task<ActionResult> Create(CreateItemViewModel model)
         {
-            CreateItemViewModel model = new CreateItemViewModel();
+            
 
             HttpResponseMessage responseMessage = await client.GetAsync("api/Item/getItemCategories");
 
-            var ItemCategoryResponse = responseMessage.Content.ReadAsStringAsync().Result;
+                var ItemCategoryResponse = responseMessage.Content.ReadAsStringAsync().Result;
 
-            var itemCategoriesResponse = JsonConvert.DeserializeObject<ItemCategoriesResponse>(ItemCategoryResponse);
+                var itemCategoriesResponse = JsonConvert.DeserializeObject<ItemCategoriesResponse>(ItemCategoryResponse);
 
-            var categoriesList = new List<SelectListItem>();
+                var categoriesList = new List<SelectListItem>();
 
-            foreach (var category in itemCategoriesResponse.ItemCategories)
-            {
-                categoriesList.Add(new SelectListItem
+                foreach (var category in itemCategoriesResponse.ItemCategories)
                 {
-                    Value = category.Id.ToString(),
-                    Text = category.Name
-                });
+                    categoriesList.Add(new SelectListItem
+                    {
+                        Value = category.Id.ToString(),
+                        Text = category.Name
+                    });
+                }
+
+                model.ItemCategories = categoriesList;
+
+            if (ModelState.IsValid)
+            {
+                return await CreateItem(model);
+                
             }
-
-            model.ItemCategories = categoriesList;
-
-            return View(model);
+            else
+            {
+                return View(model);
+            }
+            
         }
 
         // POST: Item/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(CreateItemViewModel itemViewModel)
+        public async Task<ActionResult> CreateItem(CreateItemViewModel itemViewModel)
         {
             CreateItemModel itemModel = new CreateItemModel();
 
-            var user = await _userManager.GetUserAsync(HttpContext.User);
+            var user = await _userManager.FindByNameAsync(itemViewModel.Username);
 
+            if (user == null)
+            {
+                itemViewModel.Error = "Username does not exist";
+                itemViewModel.Username = null;
+                return RedirectToAction("Create", itemViewModel);
+            }
             itemModel.CategoryId = Int32.Parse(itemViewModel.SelectedValue);
 
             itemModel.UserId = user.Id;
